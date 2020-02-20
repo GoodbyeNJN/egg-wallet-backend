@@ -39,7 +39,8 @@ module.exports = {
      * 或：
      * yarn add --dev eslint typescript @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-alloy
      */
-    extends: ["alloy", "alloy/typescript", "eslint-config-egg/typescript"],
+    extends: ["alloy", "alloy/typescript"],
+    // extends: ["alloy", "alloy/typescript", "eslint-config-egg/typescript"],
 
     /*
      * TypeScript React 专用规则
@@ -52,6 +53,7 @@ module.exports = {
     // extends: ["alloy", "alloy/react", "alloy/typescript"],
 
     globals: {},
+    env: { mocha: true },
     rules: {},
     parserOptions: {
         project: "./tsconfig.json",
