@@ -9,11 +9,7 @@ logs/
 .vscode
 *.swp
 *.lock
-*.js
 .node-xmlhttprequest*
-!.autod.conf.js
-!.prettierrc.js
-!.eslintrc.js
 
 
 app/**/*.js
