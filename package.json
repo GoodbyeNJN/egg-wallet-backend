@@ -19,7 +19,7 @@
         }
     },
     "scripts": {
-        "start": "egg-scripts start --daemon --title=egg-server-MoacWallet-backend",
+        "start": "egg-scripts start --daemon --title=egg-server-MoacWallet-backend  --workers=1",
         "stop": "egg-scripts stop --title=egg-server-MoacWallet-backend",
         "dev": "egg-bin dev",
         "debug": "egg-bin debug",
