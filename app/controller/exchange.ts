@@ -418,9 +418,7 @@ export default class ExchangeController extends Controller {
         };
         await app.model.Exchange.create(data);
         const newExchange = await app.model.Exchange.findOne({
-            where: {
-                where: { exchangePairId, payHash, deleted: false },
-            },
+            where: { exchangePairId, payHash, deleted: false },
             include: [
                 {
                     model: ExchangePair,
