@@ -10,7 +10,7 @@ logs/
 *.swp
 *.lock
 .node-xmlhttprequest*
-
+app.js
 
 app/**/*.js
 test/**/*.js
