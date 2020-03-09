@@ -14,6 +14,10 @@ import 'egg-schedule';
 import 'egg-static';
 import 'egg-jsonp';
 import 'egg-view';
+import 'egg-validate';
+import 'egg-sequelize-ts-plugin';
+import 'egg-aop';
+import 'egg-controller';
 import { EggPluginItem } from 'egg';
 declare module 'egg' {
   interface EggPlugin {
@@ -29,5 +33,9 @@ declare module 'egg' {
     static?: EggPluginItem;
     jsonp?: EggPluginItem;
     view?: EggPluginItem;
+    validate?: EggPluginItem;
+    'sequelize-typescript'?: EggPluginItem;
+    aop?: EggPluginItem;
+    controller?: EggPluginItem;
   }
 }
