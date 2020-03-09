@@ -42,6 +42,7 @@
         "egg-scripts": "^2.6.0",
         "egg-sequelize-ts-plugin": "^1.0.0",
         "egg-validate": "^2.0.2",
+        "ethereumjs-tx": "^2.1.2",
         "mysql2": "^2.1.0",
         "tsconfig-paths": "^3.9.0",
         "web3": "^1.2.6"
