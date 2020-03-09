@@ -64,7 +64,10 @@ export default (appInfo: EggAppInfo) => {
     };
 
     config.web3 = {
-        client: { rpc: "wss://ropsten.infura.io/ws/v3/13ab66893f804b6684194366db26efc3" },
+        client: {
+            rpc: "wss://ropsten.infura.io/ws/v3/13ab66893f804b6684194366db26efc3",
+        },
+        chain: "ropsten",
     };
 
     config.cmc = {
@@ -222,26 +225,26 @@ export default (appInfo: EggAppInfo) => {
         ],
     };
 
-    config.controller = {
-        genSDK: {
-            enable: true,
-            /** 生成SDK的位置 */
-            // sdkDir: path.join("app", "assets", "service"),
-            /** 路由过滤方法，默认只生成 '/api' 开头的路由 */
-            filter: [/^\/api\//g],
-            /** 默认使用ts，会生成类型定义，可选js */
-            type: "ts",
-            /** service 生成风格，支持 class | function */
-            serviceType: "class",
-            /** 类、文件名风格，支持大驼峰、下划线连字符、小驼峰 true | false | lower */
-            camelCase: true,
-            // hook: {
-            //     /** 替换名称 */
-            //     customClassName: (name) => name.replace("Controller", "Service"),
-            // },
-            /** 其余属性参见 https://github.com/zhang740/openapi-generator */
-        },
-    };
+    // config.controller = {
+    //     genSDK: {
+    //         enable: true,
+    //         /** 生成SDK的位置 */
+    //         // sdkDir: path.join("app", "assets", "service"),
+    //         /** 路由过滤方法，默认只生成 '/api' 开头的路由 */
+    //         filter: [/^\/api\//g],
+    //         /** 默认使用ts，会生成类型定义，可选js */
+    //         type: "ts",
+    //         /** service 生成风格，支持 class | function */
+    //         serviceType: "class",
+    //         /** 类、文件名风格，支持大驼峰、下划线连字符、小驼峰 true | false | lower */
+    //         camelCase: true,
+    //         // hook: {
+    //         //     /** 替换名称 */
+    //         //     customClassName: (name) => name.replace("Controller", "Service"),
+    //         // },
+    //         /** 其余属性参见 https://github.com/zhang740/openapi-generator */
+    //     },
+    // };
 
     // move to package.json
     // config.watchDirs = {
