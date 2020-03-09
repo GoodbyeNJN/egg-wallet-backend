@@ -1,0 +1,42 @@
+# 后端代码自动部署
+stages:
+    - npm
+    - deploy
+
+# 变量
+variables:
+    ID_RSA: "LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVBcm9RbzRZdWJSeVg4bXRpU3VpVWEvQmRPbkU4N0ZCaTZMYlJwVzJjTU9Uekh4c1JYCkoxTUptWGtNcEc0ZitJNWI1cElHWXg5SittQ2hhaVZRcjdmdWlyQ1QvQm1qeGJDZzZYbTVsSk1JRzZTVEtzSmwKOG10N0Y0VHpDV1dHTUVQZVRNL1kvWlNNNlZhbjlRQXNMS1dKK0dUbGV2NmF1QWF2MGI4cEt0czU1MzV1cVBCTApBa0lxS21SeWVQWnYzK2hGRHpZbDVUTU5MQWlCUDRhcityZnZQS0xKTkhqTVVuWXpaTERiWVFnZVRrT1o0R0kxCkJGdHU5bElkVmc2NFhFR3ptVTlvdlRkUjBiV2cvV05BU0lOdDloUW9sNEpJbzBTWmtrOTlhZitBcjBTb1JxcDkKWCtLRFE0bjYxUVBLYW9XYmJEMzZGQUZMMkhnSnloL25tb2FqTFFJREFRQUJBb0lCQVFDSlEwUFFXdmt3RmUzQQpjVlcrK1k1bTk0SUtLYnRqREN2cjVQbjFQWEQ4MkJTZC96STVxUE5rOWpQK1pPdmFtVVlwYlhOK3BVNlBrMCtDCmFJVTFJS3VNQkdUeEpjMk5vV1ovSFJIZGpXUVVNZmJhNi9vNW1WWkE0bjR5UnRzcnZVWHREcEl5cVpQSHVEUDAKM1VUaGZQYXZHOVR2VDdDcnkvNmdNQVlXUWtZaUVCK2grckYvWGNxaTdkeEUxQUdaMHZyMnlCbVhGNm5qWnBCTwp0akVMK3dQaSs3RTVhdTlFa0hNTWlBV0t0SHNKcnRpY3N5RjNtSFE2V3l0NmFVSkhYcmxwM1FnOHg5ZCtOcFF6CkF4WW53Wk95V29DT3I3MkVuMnp2S1ExMGRoKzU5bXl6S3NrZEswd2lnYWw5RXRNMXNTRTlHckwvZFhFNkZZa1oKajRHWDJhS0JBb0dCQU9EUU45aEhVbk5aMTRCeVVtY1ZQZFpNU1BlKyt0b2dXMkZEUWZnN0VMaVhQMzJoVUxWMgpYblVUVDZuUEdVd2JwRHh5RlpUNW45a0tOdUp4R1NlS3BOYnN0MmgvOGhJUWl3YVNydTZxMzQyT00yRXFUYllXCkxTVHl1SzB5TE1HdlRVWHQ4MlJLNDJKc0c2U2E3akJiY3JvNTErbXQzRElacUNjaXhsRUtiazBOQW9HQkFNYTUKdm1wVHJnT3VHMFVVWVpvNHpTblFuUWdYWFNzL2hjc0FBV3RhZW9NWHkyc2lxSUt4QVpTZ0kva2lSNDBQZkhtVwpXV05JK2U4WUNXSEF5NitqQkwwMFhJTjdGZzY0dW01dFQyNkZTcC9NaWpJOTRTNStFWmV1ejU3S1hMaFZxT21sCmlEMDQ2VUFDNGUydWgxUmc2RTIzR1lIazNtNWIrUjF4M1VvdkNXYWhBb0dCQU5Pd1hSV0R1MGl4RFhKK3M4Y3IKUWtvYkZRNXNQK3ZMVWlDWTQzS3BzNG9OcVpSVHBScnA5ZkhLR0ZadWs0U045cTJRUTNBL1NkeG1lTjNxMzJQVApjbnFLOWYwcGxUaWJhVDNzTzFxemZjUGVaZFVWcjQxSS9vTnZKcVMzdlZzNEJjeFdUcnhlcEJSV2RnVWVlakVBCnUxeE9BVmlpQk5rTVBjRjBSa2VqU2MrMUFvR0FYY3RGU0VIK205WU5JT21odDN5ZnVPQ3hmU1FwNFVPMkRqNE8KYlhEaTZnVE5DZC90ME9GaWNaZXo0dDUvRHVFRVN3N2ZXYkVUNWZsZVZEais2Z0x6TmFvRkVEbUVDNmE4dDJuNApWNTJwdndwM0g0ZDlSTWhUM1Zld3ZxMmNYWlJ3aVBhTCt2bGxmY1RlaGFRZVU0RDVvOVNMd1hjWVZOWXNHZTJvCkdGOWkvSUVDZ1lCWU0zOFphcnk4d1d3SFhBem5OYnVmblZia2JEZHJNUFlQNThKbXBBRGx1MmxjNFUwbTg2YW0KMVNoV2ZIZllxZmovTk5SdllaZHRVMzVHcWxTenc1MkRNRnlaTXVRZlI2NUhIYWFic3I3OHJ6cDVqL2RxSEJMYQpydW1RSm9EdW1taGFQRnVXMVNtZllZYWV1a0dmbDAvcFJkVmQwMkI2SnJVYUoydEpOT0FDc2c9PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=%"
+    # 注意：修改路径为实际项目路径
+    PATH: "/mnt/projects/MoacWallet-backend"
+    # 注意：修改项目名为自定的项目名
+    NAME: "moac-wallet-backend"
+
+# 所有 stage 之前的操作
+before_script:
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - ssh-add <(echo "$ID_RSA" | base64 -d)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+
+# npm install
+npm:
+    stage: npm
+    only:
+        changes:
+            - package.json
+    tags:
+        - wallet
+    script:
+        - ssh user@moacchina.info 'cd "$PATH" && npm install'
+
+# 部署测试服务器
+deploy:
+    stage: deploy
+    only:
+        # 注意：修改master为实际稳定可用的分支名
+        - master
+    tags:
+        - wallet
+    script:
+        - ssh user@moacchina.info 'cd "$PATH" && git pull && pm2 restart "$NAME"'
