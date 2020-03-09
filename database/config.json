@@ -1,0 +1,23 @@
+{
+    "development": {
+        "username": "moac_wallet_moac",
+        "password": "afX6DHJJZxkSwKJk",
+        "database": "moac_wallet_moac",
+        "host": "127.0.0.1",
+        "dialect": "mysql"
+    },
+    "test": {
+        "username": "moac_wallet_moac",
+        "password": "afX6DHJJZxkSwKJk",
+        "database": "moac_wallet_moac",
+        "host": "127.0.0.1",
+        "dialect": "mysql"
+    },
+    "production": {
+        "username": "moac_wallet_moac",
+        "password": "afX6DHJJZxkSwKJk",
+        "database": "moac_wallet_moac",
+        "host": "127.0.0.1",
+        "dialect": "mysql"
+    }
+}
