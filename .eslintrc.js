@@ -52,9 +52,24 @@ module.exports = {
      */
     // extends: ["alloy", "alloy/react", "alloy/typescript"],
 
-    globals: {},
+    globals: {
+        BigInt: true,
+    },
     env: { mocha: true },
-    rules: {},
+    rules: {
+        "sort-imports": [
+            "error",
+            {
+                ignoreMemberSort: false,
+                ignoreDeclarationSort: true,
+                ignoreCase: false,
+                memberSyntaxSortOrder: ["none", "all", "single", "multiple"],
+            },
+        ],
+        "max-params": "off",
+        "no-unused-expressions": "off",
+        "@typescript-eslint/no-unused-expressions": "error",
+    },
     parserOptions: {
         project: "./tsconfig.json",
     },
