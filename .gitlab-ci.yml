@@ -39,4 +39,4 @@ deploy:
     tags:
         - wallet
     script:
-        - ssh user@moacchina.info 'cd "$PATH" && git pull && pm2 restart "$NAME"'
+        - ssh user@moacchina.info 'cd "$PATH" && git pull && npm run ci && npm run stop && npm run start'
