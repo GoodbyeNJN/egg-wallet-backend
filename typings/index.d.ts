@@ -43,6 +43,7 @@ declare module "egg" {
         web3: {
             client?: Web3Options;
             clients?: Record<string, Web3Options>;
+            chain?: string;
         };
         cmc: {
             endpoint: string;
