@@ -193,11 +193,10 @@ export default class ExchangeController extends Controller {
             };
         }
 
+        console.log("exchangePairId:", typeof exchangePairId);
         // 根据传入的交易对id和payHash查询交易记录
         const dbExchange = await app.model.Exchange.findOne({
-            where: {
-                where: { exchangePairId, payHash, deleted: false },
-            },
+            where: { exchangePairId, payHash, deleted: false },
             include: [
                 {
                     model: ExchangePair,
