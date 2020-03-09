@@ -5,7 +5,18 @@
     "private": true,
     "egg": {
         "typescript": true,
-        "declarations": true
+        "declarations": true,
+        "tsHelper": {
+            "watchDirs": {
+                "processor": {
+                    "directory": "app/processor",
+                    "generator": "auto",
+                    "interface": "IModel",
+                    "declareTo": "Application.processor",
+                    "watch": true
+                }
+            }
+        }
     },
     "scripts": {
         "start": "egg-scripts start --daemon --title=egg-server-MoacWallet-backend",
@@ -22,26 +33,39 @@
         "clean": "ets clean"
     },
     "dependencies": {
+        "@xgheaven/nos-node-sdk": "^0.2.5",
+        "axios": "^0.19.2",
+        "bluebird": "^3.7.2",
+        "chain3": "^0.1.22",
         "egg": "^2.6.1",
-        "egg-scripts": "^2.6.0"
+        "egg-controller": "^0.3.36",
+        "egg-scripts": "^2.6.0",
+        "egg-sequelize-ts-plugin": "^1.0.0",
+        "egg-validate": "^2.0.2",
+        "mysql2": "^2.1.0",
+        "tsconfig-paths": "^3.9.0",
+        "web3": "^1.2.6"
     },
     "devDependencies": {
+        "@types/bluebird": "^3.5.30",
         "@types/mocha": "^2.2.40",
-        "@types/node": "^7.0.12",
+        "@types/node": "^13.7.7",
         "@types/supertest": "^2.0.0",
+        "@types/validator": "^12.0.1",
         "@typescript-eslint/eslint-plugin": "^2.20.0",
         "@typescript-eslint/parser": "^2.20.0",
         "autod": "^3.0.1",
         "autod-egg": "^1.1.0",
-        "egg-ci": "^1.8.0",
         "egg-bin": "^4.11.0",
+        "egg-ci": "^1.8.0",
         "egg-mock": "^3.16.0",
-        "tslib": "^1.9.0",
         "eslint": "^6.8.0",
         "eslint-config-alloy": "^3.5.0",
         "eslint-config-egg": "^8.0.0",
-        "typescript": "^3.7.5",
-        "prettier": "^1.19.1"
+        "prettier": "^1.19.1",
+        "sequelize-cli": "^5.5.1",
+        "tslib": "^1.9.0",
+        "typescript": "3.7.5"
     },
     "engines": {
         "node": ">=8.9.0"
