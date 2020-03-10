@@ -77,11 +77,11 @@ export default class Web3 extends Service {
         } = {
             exchangePairId: info.exchangePairId,
             payStatus,
-            payAddress: from,
+            payAddress: from.toLowerCase(),
             payValue,
-            receiveAddress: info.receiveAddress,
-            toAddress,
-            contractAddress: type === "erc20" ? to : undefined,
+            receiveAddress: info.receiveAddress.toLowerCase(),
+            toAddress: toAddress.toLowerCase(),
+            contractAddress: type === "erc20" ? to.toLowerCase() : undefined,
         };
 
         return exchange;
@@ -216,6 +216,52 @@ export default class Web3 extends Service {
             gasPrice: web3.utils.toHex(gasPrice),
             gasLimit: web3.utils.toHex("100000"),
             data,
+        };
+        const tx = new Tx(rawTx, { chain: chain ?? "mainnet" });
+        tx.sign(Buffer.from(privateKey, "hex"));
+        const serializedTx = tx.serialize();
+
+        return new Promise((resolve, reject) => {
+            web3.eth
+                .sendSignedTransaction(`0x${serializedTx.toString("hex")}`)
+                .once("transactionHash", (txHash) => {
+                    resolve(txHash);
+                });
+        });
+    }
+
+    public async sendEthTest(): Promise<string> {
+        const { ctx, app } = this;
+        const { keyString } = app.config.exchange;
+        const { chain } = app.config.web3;
+        const { web3 } = app;
+
+        const privateKey = "1eb26339272db98b4fe20268a183ef70d9373059ee6fe25116806f8de7884919";
+        const from = "0x4ca154cdc89721bcc842e0c163a8c6e512d3f187";
+        const to = "0x18ca5a3e7d7869eca01e1e9d490b4f332340dbb3";
+        const value = 0.1 * 10 ** 18;
+        const exchangePairId = 11;
+        const receiveAddress = "0x4ca154cdc89721bcc842e0c163a8c6e512d3f187";
+
+        let nonce: number;
+        let gasPrice: string;
+        try {
+            [nonce, gasPrice] = await Promise.all([
+                web3.eth.getTransactionCount(from),
+                web3.eth.getGasPrice(),
+            ]);
+        } catch (error) {
+            throw Error("Can not get nonce or gasPrice.");
+        }
+
+        const infoHex = ctx.helper.utf8ToHex(JSON.stringify({ exchangePairId, receiveAddress }));
+        const rawTx = {
+            to,
+            value: web3.utils.toHex(value),
+            nonce: web3.utils.toHex(nonce),
+            gasPrice: web3.utils.toHex(gasPrice),
+            gasLimit: web3.utils.toHex("100000"),
+            data: `0x${keyString}${infoHex.startsWith("0x") ? infoHex.substring(2) : infoHex}`,
         };
         const tx = new Tx(rawTx, { chain: chain ?? "mainnet" });
         tx.sign(Buffer.from(privateKey, "hex"));
