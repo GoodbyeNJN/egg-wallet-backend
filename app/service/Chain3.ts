@@ -57,7 +57,7 @@ export default class Chain3 extends Service {
         if (data !== "0x") {
             type = "erc20";
             const [, , to, value] = data.split(/0x(.{8})(.{64})/);
-            toAddress = to;
+            toAddress = `0x${to.substring(24)}`;
             payValue = BigInt(`0x${value}`);
         }
 
