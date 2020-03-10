@@ -49,9 +49,6 @@ export default {
             throw Error("Error: `receiveAddress` is not a valid address.");
         }
 
-        console.log("queries:", this.ctx.queries);
-        console.log("query:", this.ctx.query);
-
         return true;
     },
 };
