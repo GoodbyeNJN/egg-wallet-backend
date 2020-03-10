@@ -12,11 +12,11 @@ const indexRule = {
     id: "string?",
     exchangePairId: "string?",
     time: "dateTime?",
-    payStatus: { type: "enum", values: ["success", "fail", "unknown"], required: false },
+    payStatus: { type: "enum", values: ["success", "fail", "pending"], required: false },
     payHash: "string?",
     payAddress: "string?",
     payTime: "dateTime?",
-    receiveStatus: { type: "enum", values: ["success", "fail", "unknown"], required: false },
+    receiveStatus: { type: "enum", values: ["success", "fail", "pending"], required: false },
     receiveHash: "string?",
     receiveAddress: "string?",
     receiveTime: "dateTime?",
@@ -38,11 +38,11 @@ export default class ExchangeController extends Controller {
         id?: string,
         exchangePairId?: string,
         time?: Date,
-        payStatus?: "success" | "fail" | "unknown",
+        payStatus?: "success" | "fail" | "pending",
         payHash?: string,
         payAddress?: string,
         payTime?: Date,
-        receiveStatus?: "success" | "fail" | "unknown",
+        receiveStatus?: "success" | "fail" | "pending",
         receiveHash?: string,
         receiveAddress?: string,
         receiveTime?: Date,
@@ -193,7 +193,6 @@ export default class ExchangeController extends Controller {
             };
         }
 
-        console.log("exchangePairId:", typeof exchangePairId);
         // 根据传入的交易对id和payHash查询交易记录
         const dbExchange = await app.model.Exchange.findOne({
             where: { exchangePairId, payHash, deleted: false },
@@ -248,7 +247,7 @@ export default class ExchangeController extends Controller {
         // 从链上获取交易信息
         let rawExchange: {
             exchangePairId: number;
-            payStatus: "success" | "fail" | "unknown";
+            payStatus: "success" | "fail" | "pending";
             payAddress: string;
             payValue: bigint;
             receiveAddress: string;
@@ -256,7 +255,18 @@ export default class ExchangeController extends Controller {
             contractAddress: string | undefined;
         };
         try {
-            rawExchange = await ctx.service.chain3.getExchange(payHash);
+            if (exchangePair.sourceCoin.base === "moac") {
+                rawExchange = await ctx.service.chain3.getExchange(payHash);
+            } else if (exchangePair.sourceCoin.base === "eth") {
+                rawExchange = await ctx.service.web3.getExchange(payHash);
+            } else {
+                return {
+                    error: "Chain base not supported.",
+                    detail: {
+                        message: `Error: Does not support chain base: ${exchangePair.sourceCoin.base}.`,
+                    },
+                };
+            }
         } catch (error) {
             return {
                 error: "Get exchange error.",
@@ -266,12 +276,38 @@ export default class ExchangeController extends Controller {
             };
         }
 
+        // 判断从链上获取的数据是否有效
+        try {
+            ctx.helper.validateExchange(rawExchange);
+        } catch (error) {
+            return {
+                error: "Exchange info is invalid.",
+                detail: {
+                    message: error,
+                },
+            };
+        }
+
         // 交易已存在的情况下更新第二笔交易状态
         if (dbExchange) {
-            if (dbExchange.receiveStatus === "unknown") {
-                const receiveStatus = await ctx.service.chain3.getExchangeStatus(
-                    dbExchange.receiveHash,
-                );
+            if (dbExchange.receiveStatus === "pending") {
+                let receiveStatus = "";
+                if (exchangePair.sourceCoin.base === "moac") {
+                    receiveStatus = await ctx.service.chain3.getExchangeStatus(
+                        dbExchange.receiveHash,
+                    );
+                } else if (exchangePair.sourceCoin.base === "eth") {
+                    receiveStatus = await ctx.service.web3.getExchangeStatus(
+                        dbExchange.receiveHash,
+                    );
+                } else {
+                    return {
+                        error: "Chain base not supported.",
+                        detail: {
+                            message: `Error: Does not support chain base: ${exchangePair.sourceCoin.base}.`,
+                        },
+                    };
+                }
 
                 await dbExchange.update({ receiveStatus });
             }
@@ -290,44 +326,23 @@ export default class ExchangeController extends Controller {
         }
 
         // 校验转账的toAddress与项目方给定的钱包地址是否一致
-        let validate = true;
-        // 判断是否是erc20转账
-        if (rawExchange.contractAddress) {
-            // 判断erc20转账的contractAddress是否是对应币种的合约地址，且toAddress是否是项目方给定的钱包地址
-            if (
-                rawExchange.contractAddress !== exchangePair.sourceCoin.address ||
-                rawExchange.toAddress !== exchangePair.sourceCoin.wallet.address
-            ) {
-                validate = false;
-            }
-        } else {
-            // 判断底层转账的toAddress是否是项目方给定的钱包地址
-            if (rawExchange.toAddress !== exchangePair.sourceCoin.wallet.address) {
-                validate = false;
-            }
-        }
-        if (!validate) {
+        // 判断erc20转账的contractAddress是否是对应币种的合约地址
+        if (
+            rawExchange.toAddress !== exchangePair.sourceCoin.wallet.address ||
+            (rawExchange.contractAddress &&
+                rawExchange.contractAddress !== exchangePair.sourceCoin.address)
+        ) {
             return {
-                error: "Exchange info invalid.",
+                error: "Exchange info is invalid.",
                 detail: {
                     message: "Error: Exchange address does not match recorded address.",
                 },
             };
         }
 
-        // 判断交易是否成功
-        if (rawExchange.payStatus !== "success") {
-            return {
-                error: "Transaction is not success.",
-                detail: {
-                    message: "Error: Transaction is not success.",
-                },
-            };
-        }
-
         // 判断是否到达兑换上限
         const payAmount = Number(rawExchange.payValue) / 10 ** exchangePair.sourceCoin.decimals;
-        if (payAmount > exchangePair.hourLimit) {
+        if (exchangePair.hourLimit > 0 && payAmount > exchangePair.hourLimit) {
             return {
                 error: "Exchange reach limit.",
                 detail: {
@@ -335,7 +350,7 @@ export default class ExchangeController extends Controller {
                 },
             };
         }
-        if (payAmount > exchangePair.dayLimit) {
+        if (exchangePair.dayLimit > 0 && payAmount > exchangePair.dayLimit) {
             return {
                 error: "Exchange reach limit.",
                 detail: {
@@ -344,10 +359,14 @@ export default class ExchangeController extends Controller {
             };
         }
 
-        // 计算转出数量
+        // 计算转出数量，扣除0.2%手续费
         const receiveAmount = Number(
-            (payAmount * exchangePair.rate).toFixed(exchangePair.targetCoin.decimals),
+            (payAmount * exchangePair.rate * (1 - 0.2 / 100)).toFixed(
+                exchangePair.targetCoin.decimals,
+            ),
         );
+        // const receiveAmount =
+        //     Number((payAmount * exchangePair.rate).toFixed(exchangePair.targetCoin.decimals))
         const receiveValue = receiveAmount * 10 ** exchangePair.targetCoin.decimals;
 
         // 开始转账
@@ -367,7 +386,22 @@ export default class ExchangeController extends Controller {
                         payHash,
                     });
                 } else if (exchangePair.targetCoin.base === "eth") {
-                    console.log("eth");
+                    receiveHash = await ctx.service.web3.sendErc20({
+                        privateKey: wallet.private,
+                        contractAddress: exchangePair.targetCoin.address,
+                        from: wallet.address,
+                        to: rawExchange.receiveAddress,
+                        value: receiveValue,
+                        exchangePairId: rawExchange.exchangePairId,
+                        payHash,
+                    });
+                } else {
+                    return {
+                        error: "Chain base not supported.",
+                        detail: {
+                            message: `Error: Does not support chain base: ${exchangePair.sourceCoin.base}.`,
+                        },
+                    };
                 }
             } else {
                 if (exchangePair.targetCoin.base === "moac") {
@@ -380,7 +414,21 @@ export default class ExchangeController extends Controller {
                         payHash,
                     });
                 } else if (exchangePair.targetCoin.base === "eth") {
-                    console.log("eth");
+                    receiveHash = await ctx.service.web3.sendEth({
+                        privateKey: wallet.private,
+                        from: wallet.address,
+                        to: rawExchange.receiveAddress,
+                        value: receiveValue,
+                        exchangePairId: rawExchange.exchangePairId,
+                        payHash,
+                    });
+                } else {
+                    return {
+                        error: "Chain base not supported.",
+                        detail: {
+                            message: `Error: Does not support chain base: ${exchangePair.sourceCoin.base}.`,
+                        },
+                    };
                 }
             }
         } catch (error) {
@@ -410,7 +458,7 @@ export default class ExchangeController extends Controller {
             payAmount,
             payTime: new Date(payTime),
 
-            receiveStatus: "unknown",
+            receiveStatus: "pending",
             receiveHash,
             receiveAddress: rawExchange.receiveAddress,
             receiveAmount,
