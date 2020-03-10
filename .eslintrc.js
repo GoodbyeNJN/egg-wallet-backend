@@ -69,6 +69,7 @@ module.exports = {
         "max-params": "off",
         "no-unused-expressions": "off",
         "@typescript-eslint/no-unused-expressions": "error",
+        complexity: "off",
     },
     parserOptions: {
         project: "./tsconfig.json",

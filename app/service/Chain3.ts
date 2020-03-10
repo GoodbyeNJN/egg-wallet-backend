@@ -63,11 +63,11 @@ export default class Chain3 extends Service {
 
         // 判断erc20交易是否成功
         const payStatus =
-            receipt.status === "0x1" ? "success" : receipt.status === "0x0" ? "fail" : "unknown";
+            receipt.status === "0x1" ? "success" : receipt.status === "0x0" ? "fail" : "pending";
 
         const exchange: {
             exchangePairId: number;
-            payStatus: "success" | "fail" | "unknown";
+            payStatus: "success" | "fail" | "pending";
             payAddress: string;
             payValue: bigint;
             receiveAddress: string;
@@ -100,7 +100,7 @@ export default class Chain3 extends Service {
             context: chain3,
         });
 
-        let receiveStatus = "unknown";
+        let receiveStatus = "pending";
 
         let tx: MoacTransaction;
         let receipt: MoacReceipt;
@@ -120,7 +120,7 @@ export default class Chain3 extends Service {
 
         // 判断erc20交易是否成功
         receiveStatus =
-            receipt.status === "0x1" ? "success" : receipt.status === "0x0" ? "fail" : "unknown";
+            receipt.status === "0x1" ? "success" : receipt.status === "0x0" ? "fail" : "pending";
 
         return receiveStatus;
     }

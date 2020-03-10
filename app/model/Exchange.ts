@@ -41,7 +41,7 @@ export class Exchange extends Model<Exchange> {
     @Column
     public time: Date;
 
-    @Comment("第一笔转账交易状态（success、fail、unknown）")
+    @Comment("第一笔转账交易状态（success、fail、pending）")
     @Column
     public payStatus: string;
 
@@ -63,7 +63,7 @@ export class Exchange extends Model<Exchange> {
     @Column
     public payTime: Date;
 
-    @Comment("第二笔转账交易状态（success、fail、unknown）")
+    @Comment("第二笔转账交易状态（success、fail、pending）")
     @Column
     public receiveStatus: string;
 
