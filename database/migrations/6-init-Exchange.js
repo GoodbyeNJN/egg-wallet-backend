@@ -34,7 +34,7 @@ module.exports = {
 
                     payStatus: {
                         type: STRING,
-                        comment: "第一笔转账交易状态（success、fail、unknown）",
+                        comment: "第一笔转账交易状态（success、fail、pending）",
                     },
                     payHash: { type: STRING(66), comment: "第一笔转账hash" },
                     payAddress: { type: STRING(42), comment: "第一笔转账的付款钱包地址" },
@@ -43,7 +43,7 @@ module.exports = {
 
                     receiveStatus: {
                         type: STRING,
-                        comment: "第二笔转账交易状态（success、fail、unknown）",
+                        comment: "第二笔转账交易状态（success、fail、pending）",
                     },
                     receiveHash: { type: STRING(66), comment: "第二笔转账hash" },
                     receiveAddress: { type: STRING(42), comment: "第二笔转账的收款钱包地址" },
