@@ -211,7 +211,7 @@ export default class Web3 extends Service {
 
         const rawTx = {
             to,
-            value: web3.utils.toHex(value),
+            value: web3.utils.toHex("0"),
             nonce: web3.utils.toHex(nonce),
             gasPrice: web3.utils.toHex(gasPrice),
             gasLimit: web3.utils.toHex("100000"),
