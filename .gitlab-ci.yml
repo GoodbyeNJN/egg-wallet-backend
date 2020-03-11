@@ -38,6 +38,6 @@ deploy:
         - wallet
     script:
         - git pull
-        - yarn ci
+        - yarn tsc
         - yarn stop
         - yarn start
