@@ -30,7 +30,7 @@ export default class Chain3 extends Service {
         }
 
         // 判断交易是否上链
-        if (!tx.blockHash || !tx.blockNumber || !tx.transactionIndex || !receipt) {
+        if (!tx.blockHash || !tx.blockNumber || !receipt) {
             throw Error("This transaction is pending.");
         }
         const { from, to, value, input } = tx;
@@ -113,7 +113,7 @@ export default class Chain3 extends Service {
         }
 
         // 判断交易是否上链
-        if (!tx.blockHash || !tx.blockNumber || !tx.transactionIndex || !receipt) {
+        if (!tx.blockHash || !tx.blockNumber || !receipt) {
             // throw Error("This transaction is pending.");
             return receiveStatus;
         }
