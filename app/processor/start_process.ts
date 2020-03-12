@@ -8,8 +8,8 @@ export default (app: Application) => {
             "\ttask start:",
             `\tbase=${base}`,
             `\tblockNumber=${block.number}`,
-            `\ttaskList=`,
-            tasks,
+            `\ttaskLength=`,
+            tasks.length,
         );
         if (tasks.length === 0) {
             return;
