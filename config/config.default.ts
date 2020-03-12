@@ -75,6 +75,11 @@ export default (appInfo: EggAppInfo) => {
         keys: ["0b6e2f3d-66c5-4bb1-9fc3-ea3fa7e07f64", "d83785b8-fab6-46ca-8a9d-f0fa770668fe"],
     };
 
+    config.server = {
+        url: "https://sc.ftqq.com",
+        sckey: ["SCU437T83590f210b822814000b66a170a3c9f155f67a24ee2c5"],
+    };
+
     config.exchange = {
         keyString: "00000000000000000000000000000000000000000000000065786368616e6765", // web3.utils.utf8ToHex('exchange')
         // keyString: "000000000000776562332e7574696c732e75746638546f48657828737472293b", // web3.utils.utf8ToHex('exchange')

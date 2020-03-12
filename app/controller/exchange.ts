@@ -432,6 +432,15 @@ export default class ExchangeController extends Controller {
                 }
             }
         } catch (error) {
+            if (error.toString().includes("insufficient funds")) {
+                ctx.service.notification.send(
+                    "余额不足",
+                    `底层：\`${exchangePair.targetCoin.base}\`
+                钱包地址：\`${wallet.address}\`
+                时间：${new Date().toLocaleString("zh-CN", { hour12: false })}`,
+                );
+            }
+
             return {
                 error: "Send transaction error.",
                 detail: {
