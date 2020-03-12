@@ -71,6 +71,16 @@ export class Coin extends Model<Coin> {
     @BelongsTo(() => Wallet)
     public wallet: Wallet;
 
+    @Default(0)
+    @Comment("单次转账的最大金额（自然单位）")
+    @Column(DataType.FLOAT)
+    public maxAmount: number;
+
+    @Default(0)
+    @Comment("单次转账的最小金额（自然单位）")
+    @Column(DataType.FLOAT)
+    public minAmount: number;
+
     @HasMany(() => ExchangePair, "sourceCoinId")
     public sourceCoins: ExchangePair[];
 
