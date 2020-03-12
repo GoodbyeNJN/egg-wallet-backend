@@ -9,6 +9,7 @@ type AutoInstanceType<T, U = T extends CanExportFunc ? T : T extends AnyFunc ? R
 import ExportStartProcess from '../../../app/processor/start_process';
 import ExportTasks from '../../../app/processor/tasks';
 import ExportUpdateContractAddress from '../../../app/processor/update_contract_address';
+import ExportUpdateTxStatus from '../../../app/processor/update_tx_status';
 
 declare module 'egg' {
   interface Application {
@@ -19,5 +20,6 @@ declare module 'egg' {
     startProcess: AutoInstanceType<typeof ExportStartProcess>;
     tasks: AutoInstanceType<typeof ExportTasks>;
     updateContractAddress: AutoInstanceType<typeof ExportUpdateContractAddress>;
+    updateTxStatus: AutoInstanceType<typeof ExportUpdateTxStatus>;
   }
 }

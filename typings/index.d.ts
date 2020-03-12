@@ -106,7 +106,7 @@ declare module "egg" {
         status: "0x1" | "0x0";
     }
 
-    interface EthBlockHeader extends BlockHeader {
+    interface EthBlock extends BlockHeader {
         // number: number | null;
         // hash: string | null;
         // parentHash: string;
@@ -130,5 +130,6 @@ declare module "egg" {
         hash: string;
         endBlockNumber: number;
         processor: string;
+        [key: string]: any;
     }
 }

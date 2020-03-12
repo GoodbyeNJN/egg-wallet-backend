@@ -1,7 +1,7 @@
-import { Application, EthBlockHeader, MoacBlock } from "egg";
+import { Application, EthBlock, MoacBlock } from "egg";
 
 export default (app: Application) => {
-    return (base: string, block: MoacBlock | EthBlockHeader) => {
+    return (base: string, block: MoacBlock | EthBlock) => {
         const tasks = app.processor.tasks.get(base);
         if (tasks.length === 0) {
             return;
