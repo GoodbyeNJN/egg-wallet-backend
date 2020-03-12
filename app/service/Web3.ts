@@ -169,6 +169,9 @@ export default class Web3 extends Service {
                 .sendSignedTransaction(`0x${serializedTx.toString("hex")}`)
                 .once("transactionHash", (txHash) => {
                     resolve(txHash);
+                })
+                .on("error", (error) => {
+                    reject(error);
                 });
         });
     }
@@ -226,6 +229,9 @@ export default class Web3 extends Service {
                 .sendSignedTransaction(`0x${serializedTx.toString("hex")}`)
                 .once("transactionHash", (txHash) => {
                     resolve(txHash);
+                })
+                .on("error", (error) => {
+                    reject(error);
                 });
         });
     }
@@ -272,6 +278,9 @@ export default class Web3 extends Service {
                 .sendSignedTransaction(`0x${serializedTx.toString("hex")}`)
                 .once("transactionHash", (txHash) => {
                     resolve(txHash);
+                })
+                .on("error", (error) => {
+                    reject(error);
                 });
         });
     }
