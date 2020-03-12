@@ -1,6 +1,14 @@
 import { Application, EthBlock, MoacBlock, Task } from "egg";
 
 export default async (app: Application, base: string, block: MoacBlock | EthBlock, task: Task) => {
+    console.log(
+        new Date().toLocaleString("zh-CN", { hour12: false }),
+        "\tprocessor start:",
+        `\tbase=${base}`,
+        `\tblockNumber=${block.number}`,
+        `\tprocessor=${task.processor}`,
+    );
+
     const ctx = app.createAnonymousContext();
     const { hash, exchangePairId } = task;
 

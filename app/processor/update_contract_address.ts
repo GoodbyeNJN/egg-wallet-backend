@@ -1,6 +1,14 @@
 import { Application, MoacBlock, Task } from "egg";
 
 export default async (app: Application, base: string, block: MoacBlock, task: Task) => {
+    console.log(
+        new Date().toLocaleString("zh-CN", { hour12: false }),
+        "\tprocessor start:",
+        `\tbase=${base}`,
+        `\tblockNumber=${block.number}`,
+        `\tprocessor=${task.processor}`,
+    );
+
     if (base !== "moac") {
         return;
     }

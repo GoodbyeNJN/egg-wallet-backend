@@ -2,6 +2,12 @@ import { Application, EthBlock, MoacBlock } from "egg";
 
 export default (app: Application) => {
     return (base: string, block: MoacBlock | EthBlock) => {
+        console.log(
+            new Date().toLocaleString("zh-CN", { hour12: false }),
+            "\ttask start:",
+            `\tbase=${base}`,
+            `\tblockNumber=${block.number}`,
+        );
         const tasks = app.processor.tasks.get(base);
         if (tasks.length === 0) {
             return;
@@ -10,6 +16,14 @@ export default (app: Application) => {
         const newTasks = [...tasks];
 
         for (const task of tasks) {
+            console.log(
+                new Date().toLocaleString("zh-CN", { hour12: false }),
+                "\tprocessing task:",
+                `\thash=${task.hash}`,
+                `\tblockNumber=${task.endBlockNumber}`,
+                `\tprocessor=${task.processor}`,
+            );
+
             // 当最新块高比截止块高大时
             if (block.number ?? 0 >= task.endBlockNumber) {
                 // 启动任务
