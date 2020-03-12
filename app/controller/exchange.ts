@@ -515,11 +515,21 @@ export default class ExchangeController extends Controller {
             },
         });
 
-        // app.processor.tasks.add({
-        //     hash: txHash,
-        //     endBlockNumber: app.chain3.mc.blockNumber + 12,
-        //     processor: "updateContractAddress",
-        // });
+        if (exchangePair.targetCoin.base === "moac") {
+            app.processor.tasks.add("moac", {
+                hash: receiveHash,
+                endBlockNumber: app.chain3.mc.blockNumber + 1,
+                processor: "updateTxStatus",
+                exchangePairId: rawExchange.exchangePairId,
+            });
+        } else if (exchangePair.targetCoin.base === "eth") {
+            app.processor.tasks.add("eth", {
+                hash: receiveHash,
+                endBlockNumber: (await app.web3.eth.getBlockNumber()) + 1,
+                processor: "updateTxStatus",
+                exchangePairId: rawExchange.exchangePairId,
+            });
+        }
 
         return newExchange;
     }
