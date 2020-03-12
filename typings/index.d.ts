@@ -49,6 +49,10 @@ declare module "egg" {
             endpoint: string;
             keys: string[];
         };
+        server: {
+            url: string;
+            sckey: string[];
+        };
     }
 
     interface MoacBlock {
