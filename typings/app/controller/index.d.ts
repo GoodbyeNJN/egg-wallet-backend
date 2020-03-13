@@ -8,6 +8,7 @@ import ExportExchange from '../../../app/controller/exchange';
 import ExportExchangePair from '../../../app/controller/exchangePair';
 import ExportHome from '../../../app/controller/home';
 import ExportPrice from '../../../app/controller/price';
+import ExportVersion from '../../../app/controller/version';
 
 declare module 'egg' {
   interface IController {
@@ -17,5 +18,6 @@ declare module 'egg' {
     exchangePair: ExportExchangePair;
     home: ExportHome;
     price: ExportPrice;
+    version: ExportVersion;
   }
 }
