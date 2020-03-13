@@ -13,12 +13,7 @@ export default class Notification extends Service {
 
         for (const key of sckey) {
             axios.get(`${url}/${key}.send`, {
-                params: desp
-                    ? {
-                          text,
-                          desp,
-                      }
-                    : { text },
+                params: desp ? { text, desp } : { text },
             });
         }
     }

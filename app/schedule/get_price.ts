@@ -1,6 +1,7 @@
 import { Application, Context } from "egg";
 import axios from "axios";
 
+// 定时获取币价
 export default (app: Application) => {
     const { cmc } = app.config;
 

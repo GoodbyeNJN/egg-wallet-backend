@@ -14,6 +14,7 @@ interface Web3Options {
 }
 
 declare module "egg" {
+    // app对象的类型声明
     interface Application {
         nos: NosClient;
         chain3: Chain3;
@@ -31,6 +32,7 @@ declare module "egg" {
         };
     }
 
+    // config文件中相关配置信息的类型声明
     interface EggAppConfig {
         nos: {
             client?: NosClientOptions;
@@ -110,25 +112,7 @@ declare module "egg" {
         status: "0x1" | "0x0";
     }
 
-    interface EthBlock extends BlockHeader {
-        // number: number | null;
-        // hash: string | null;
-        // parentHash: string;
-        // sha3Uncles: string;
-        // logsBloom: string | null;
-        // transactionsRoot: string;
-        // stateRoot: string;
-        // receiptsRoot: string;
-        // miner: string;
-        // difficulty: string;
-        // extraData: string;
-        // gasLimit: number;
-        // gasUsed: number;
-        // timestamp: number | string;
-        // nonce: string | null;
-        // mixHash: string;
-        // size: any | undefined;
-    }
+    interface EthBlock extends BlockHeader {}
 
     interface Task {
         hash: string;

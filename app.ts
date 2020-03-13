@@ -49,6 +49,7 @@ export default class Boot implements IBoot {
     }
 }
 
+// 创建nos实例，并挂载到app对象上
 const loadNos = (app: Application) => {
     app.addSingleton("nos", (config) => {
         const client = new NosClient(config);
@@ -56,6 +57,7 @@ const loadNos = (app: Application) => {
     });
 };
 
+// 创建chain3实例，并挂载到app对象上
 const loadChain3 = (app: Application) => {
     app.addSingleton("chain3", (config) => {
         const chain3 = new Chain3(new Chain3.providers.HttpProvider(config.rpc));
@@ -63,34 +65,39 @@ const loadChain3 = (app: Application) => {
     });
 
     const event = new EventEmitter();
-    // app.block = event;
 
+    // 创建新块监听器
     const latestFilter = app.chain3.mc.filter("latest");
     latestFilter.watch((err, hash) => {
         if (err) {
             return;
         }
         const block = app.chain3.mc.getBlock(hash, true);
-        // app.block.emit("NewBlock", block);
+        // 收到新块时抛出事件
         event.emit("NewBlock", block);
     });
-    // app.block.on("NewBlock", (block) => {
+
+    // 监听到事件时启动处理过程
     event.on("NewBlock", (block) => {
         app.processor.startProcess("moac", block);
     });
 };
 
+// 创建nos实例，并挂载到app对象上
 const loadWeb3 = (app: Application) => {
     app.addSingleton("web3", (config) => {
         const web3 = new Web3(new Web3.providers.WebsocketProvider(config.rpc));
         return web3;
     });
 
+    // 创建新块监听器
     app.web3.eth.subscribe("newBlockHeaders").on("data", (blockHeader) => {
+        // 监听到事件时启动处理过程
         app.processor.startProcess("eth", blockHeader);
     });
 };
 
+// 将processor文件夹下的文件挂载到app对象上
 const loadProcessor = (app: Application) => {
     const directory = path.join(app.config.baseDir, "app/processor");
     app.loader.loadToApp(directory, "processor");

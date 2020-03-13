@@ -16,21 +16,25 @@ export default (appInfo: EggAppInfo) => {
         sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`,
     };
 
+    // 关闭csrf功能
     config.security = {
         csrf: {
             enable: false,
         },
     };
 
+    // 设置文件上传为file模式，另有文件流模式可选
     config.multipart = {
         mode: "file",
     };
 
+    // 参数校验插件egg-validate
     config.validate = {
         convert: true,
         widelyUndefined: true,
     };
 
+    // sequelize的连接信息
     config.sequelize = {
         host: "127.0.0.1",
         port: 3306,
@@ -41,15 +45,7 @@ export default (appInfo: EggAppInfo) => {
         logging: false,
     };
 
-    config.redis = {
-        client: {
-            port: 6379,
-            host: "127.0.0.1",
-            password: "",
-            db: 0,
-        },
-    };
-
+    // 网易云对象存储的连接信息
     config.nos = {
         client: {
             accessKey: "509cb4a36f6f479a8a835640a697e5e7",
@@ -59,30 +55,38 @@ export default (appInfo: EggAppInfo) => {
         },
     };
 
+    // chain3的连接信息
     config.chain3 = {
         client: { rpc: "http://node.moacchina.info" },
     };
 
+    // web3的连接信息
     config.web3 = {
         client: {
             rpc: "wss://ropsten.infura.io/ws/v3/13ab66893f804b6684194366db26efc3",
         },
+        // 测试网的chain名称
+        // 后期需要改成正式网的话，改成mainnet，或直接删除这一项
         chain: "ropsten",
+        // chain: "mainnet",
     };
 
+    // cmc获取币价的api地址及密钥信息，有每小时和每日限额
     config.cmc = {
         endpoint: "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest",
         keys: ["0b6e2f3d-66c5-4bb1-9fc3-ea3fa7e07f64", "d83785b8-fab6-46ca-8a9d-f0fa770668fe"],
     };
 
+    // 钱包余额不足时通过微信通知管理员，相关说明见如下url
     config.server = {
         url: "https://sc.ftqq.com",
         sckey: ["SCU437T83590f210b822814000b66a170a3c9f155f67a24ee2c5"],
     };
 
+    // 闪兑交易的配置信息
     config.exchange = {
+        // 写入转账的input data中，用于识别是否为闪兑交易
         keyString: "00000000000000000000000000000000000000000000000065786368616e6765", // web3.utils.utf8ToHex('exchange')
-        // keyString: "000000000000776562332e7574696c732e75746638546f48657828737472293b", // web3.utils.utf8ToHex('exchange')
         abi: [
             {
                 constant: true,
@@ -229,43 +233,6 @@ export default (appInfo: EggAppInfo) => {
             },
         ],
     };
-
-    // config.controller = {
-    //     genSDK: {
-    //         enable: true,
-    //         /** 生成SDK的位置 */
-    //         // sdkDir: path.join("app", "assets", "service"),
-    //         /** 路由过滤方法，默认只生成 '/api' 开头的路由 */
-    //         filter: [/^\/api\//g],
-    //         /** 默认使用ts，会生成类型定义，可选js */
-    //         type: "ts",
-    //         /** service 生成风格，支持 class | function */
-    //         serviceType: "class",
-    //         /** 类、文件名风格，支持大驼峰、下划线连字符、小驼峰 true | false | lower */
-    //         camelCase: true,
-    //         // hook: {
-    //         //     /** 替换名称 */
-    //         //     customClassName: (name) => name.replace("Controller", "Service"),
-    //         // },
-    //         /** 其余属性参见 https://github.com/zhang740/openapi-generator */
-    //     },
-    // };
-
-    // move to package.json
-    // config.watchDirs = {
-    //     processor: {
-    //         directory: "app/processor", // files directory.
-    //         // pattern: '**/*.(ts|js)', // glob pattern, default is **/*.(ts|js). it doesn't need to configure normally.
-    //         // ignore: '', // ignore glob pattern, default to empty.
-    //         generator: "function", // generator name, eg: class、auto、function、object
-    //         interface: "IModel", // interface name
-    //         declareTo: "Application.processor", // declare to this interface
-    //         watch: true, // whether need to watch files
-    //         // caseStyle: 'upper', // caseStyle for loader
-    //         // interfaceHandle: val => `ReturnType<typeof ${val}>`, // interfaceHandle
-    //         // trigger: ['add', 'unlink'], // recreate d.ts when receive these events, all events: ['add', 'unlink', 'change']
-    //     },
-    // };
 
     // the return config will combines to EggAppConfig
     return {

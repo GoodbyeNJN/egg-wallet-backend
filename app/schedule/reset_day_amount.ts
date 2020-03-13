@@ -1,5 +1,6 @@
 import { Subscription } from "egg";
 
+// 每天重置小时交易量
 export default class ResetHourAmount extends Subscription {
     public static get schedule() {
         return {

@@ -1,5 +1,6 @@
 import { Application, EthBlock, MoacBlock, Task } from "egg";
 
+// 更新交易状态的处理过程
 export default async (app: Application, base: string, block: MoacBlock | EthBlock, task: Task) => {
     console.log(
         new Date().toLocaleString("zh-CN", { hour12: false }),
