@@ -15,10 +15,10 @@ export default class PriceController extends Controller {
 
         if (!symbol) {
             return app.price;
-        } else if (symbol === "moac") {
+        } else if (symbol === "moac" || symbol === "MOAC") {
             app.logger.warn(app.price);
             return app.price.moac;
-        } else if (symbol === "eth") {
+        } else if (symbol === "eth" || symbol === "ETH") {
             return app.price.eth;
         }
     }
