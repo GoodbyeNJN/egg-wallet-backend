@@ -14,13 +14,14 @@ export default (app: Application) => {
         },
     });
 
+    const index = Math.floor(Math.random() * (cmc.keys.length - 1));
     const moacParams = {
-        headers: { "X-CMC_PRO_API_KEY": cmc.keys[0] },
+        headers: { "X-CMC_PRO_API_KEY": cmc.keys[index] },
         params: { symbol: "MOAC", convert: "CNY" },
     };
 
     const ethParams = {
-        headers: { "X-CMC_PRO_API_KEY": cmc.keys[1] },
+        headers: { "X-CMC_PRO_API_KEY": cmc.keys[index] },
         params: { symbol: "ETH", convert: "CNY" },
     };
 

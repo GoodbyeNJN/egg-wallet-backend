@@ -74,7 +74,7 @@ export default (appInfo: EggAppInfo) => {
     // cmc获取币价的api地址及密钥信息，有每小时和每日限额
     config.cmc = {
         endpoint: "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest",
-        keys: ["0b6e2f3d-66c5-4bb1-9fc3-ea3fa7e07f64", "d83785b8-fab6-46ca-8a9d-f0fa770668fe"],
+        keys: ["e2bca5bc-ff10-4163-92d1-945d6a743ad7", "dec3dbea-cc69-4701-9f9c-28006209a01f"],
     };
 
     // 钱包余额不足时通过微信通知管理员，相关说明见如下url
