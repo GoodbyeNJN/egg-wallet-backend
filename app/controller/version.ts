@@ -6,8 +6,8 @@ export default class VersionController extends Controller {
     public async index() {
         return {
             "kaba-wallet": {
-                version: "0.6.2",
-                versionNumber: 602,
+                version: "0.6.4",
+                versionNumber: 604,
                 validVersion: "0.0.0",
                 validVersionNumber: 0,
                 downloadUrl:
