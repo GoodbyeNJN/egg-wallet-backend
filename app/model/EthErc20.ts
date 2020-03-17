@@ -58,6 +58,10 @@ export class EthErc20 extends Model<EthErc20> {
     @Column(DataType.STRING(42))
     public owner: string;
 
+    @Comment("余额")
+    @Column(DataType.FLOAT)
+    public balance: number;
+
     @Comment("币种图标")
     @Column(DataType.TEXT)
     public icon: string;
